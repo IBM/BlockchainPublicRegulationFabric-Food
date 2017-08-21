@@ -1,0 +1,144 @@
+/**
+ * Access Control List for the bidding network.
+ */
+
+ rule SupplierView {
+     description: "Allow supplier read access to all importer resources"
+     participant: "composer.food.supply.Supplier"
+     operation: READ
+     resource: "composer.food.supply.Importer"
+     action: ALLOW
+ }
+
+ rule SupplierCanViewOwnData {
+     description: "Allow supplier access to his own data"
+     participant(m): "composer.food.supply.Supplier"
+     operation: ALL
+     resource(v): "composer.food.supply.Supplier"
+     condition: (v.getIdentifier() == m.getIdentifier())
+     action: ALLOW
+ }
+
+ rule ImporterCanViewRetailerData {
+     description: "Allow importer read access to Retailer resources"
+     participant: "composer.food.supply.Importer"
+     operation: READ
+     resource: "composer.food.supply.Retailer"
+     action: ALLOW
+ }
+
+ rule ImporterCanViewRegulatorData {
+     description: "Allow importer read access to Regulator resources"
+     participant: "composer.food.supply.Importer"
+     operation: READ
+     resource: "composer.food.supply.Regulator"
+     action: ALLOW
+ }
+
+ rule ImporterCanSupplierDataView {
+     description: "Allow importer read access to Supplier resources"
+     participant: "composer.food.supply.Importer"
+     operation: READ
+     resource: "composer.food.supply.Supplier"
+     action: ALLOW
+ }
+
+ rule ImporterCanViewOwnData {
+     description: "Allow importer access to his own data"
+     participant(m): "composer.food.supply.Importer"
+     operation: ALL
+     resource(v): "composer.food.supply.Importer"
+     condition: (v.getIdentifier() == m.getIdentifier())
+     action: ALLOW
+ }
+
+ rule RetailerView {
+     description: "Allow retailer read access to all importer resources"
+     participant: "composer.food.supply.Retailer"
+     operation: READ
+     resource: "composer.food.supply.Importer"
+     action: ALLOW
+ }
+
+ rule RetailerCanViewOwnData {
+     description: "Allow retailer access to his own data"
+     participant(m): "composer.food.supply.Retailer"
+     operation: ALL
+     resource(v): "composer.food.supply.Retailer"
+     condition: (v.getIdentifier() == m.getIdentifier())
+     action: ALLOW
+ }
+
+
+ rule RegulatorView {
+     description: "Allow regulator read access to all resources"
+     participant: "composer.food.supply.Regulator"
+     operation: READ
+     resource: "composer.food.supply.*"
+     action: ALLOW
+ }
+
+ rule CreateProductListing{
+     description: "Allow Supplier to create new product listing"
+     participant(m): "composer.food.supply.Supplier"
+     operation: CREATE
+     resource(v): "composer.food.supply.createProductListing"
+     condition: (v.user.getIdentifier() == m.getIdentifier())
+     action: ALLOW
+ }
+
+rule ProductListingOwner {
+    description: "Allow the owner of a product listing total access to their listing"
+    participant(m): "composer.food.supply.*"
+    operation: ALL
+    resource(v): "composer.food.supply.ProductListingContract"
+    condition: (v.owner.getIdentifier() == m.getIdentifier())
+    action: ALLOW
+}
+
+rule TransferListing{
+      description: "Allow the owner of a product listing to transfer the listing"
+      participant(m): "composer.food.supply.*"
+      operation: CREATE
+      resource(v): "composer.food.supply.ProductListingContract"
+      transaction(tx): "composer.food.supply.transferListing"
+      condition: (tx.productListing.owner.getIdentifier() == m.getIdentifier())
+      action: ALLOW
+}
+
+rule TransferListingUpdateRetailerProducts{
+      description: "Allow members to bid for the product"
+      participant(m): "composer.food.supply.*"
+      operation: UPDATE
+      resource(v): "composer.food.supply.Retailer"
+      transaction(tx): "composer.food.supply.transferListing"
+      condition: (tx.productListing.owner.getIdentifier() == m.getIdentifier())
+      action: ALLOW
+}
+
+
+rule CheckProducts{
+      description: "Allow members to bid for the product"
+      participant(m): "composer.food.supply.Importer"
+      operation: CREATE
+      resource(v): "composer.food.supply.checkProducts"
+      condition: (v.productListing.owner.getIdentifier() == m.getIdentifier())
+      action: ALLOW
+}
+
+rule UpdateExemptedList{
+      description: "Allow members to bid for the product"
+      participant(m): "composer.food.supply.Regulator"
+      operation: CREATE
+      resource(v): "composer.food.supply.updateExemptedList"
+      condition: (v.regulator.getIdentifier() == m.getIdentifier())
+      action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}

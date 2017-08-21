@@ -1,0 +1,87 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace composer.food.supply
+import composer.base.User
+
+enum Status{
+  o INITIALREQUEST
+  o EXEMPTCHECKREQ
+  o HAZARDANALYSISCHECKREQ
+  o CHECKCOMPLETED
+}
+
+concept Product {
+  o String productId
+  o String quantity
+  o String countryId
+}
+
+participant Retailer identified by retailerId extends User {
+  o  String retailerId
+  o  Product[] products
+}
+
+participant Importer identified by importerId extends User {
+  o  String importerId
+}
+
+participant Supplier identified by supplierId extends User {
+  o  String supplierId
+  o  String countryId
+  o  String orgId
+}
+
+participant Regulator identified by customId{
+  o String customId
+  o String location
+  o String[] exemptedOrgIds
+  o String[] exemptedProductIds
+}
+
+asset ProductListingContract identified by listingtId {
+  o String listingtId
+  o Status status
+  o Product[] products
+  --> User owner
+  --> Supplier supplier
+}
+
+
+// Supplier creates a product listing contrat for the list of products
+transaction createProductListing{
+  o String[] products
+  --> User user
+}
+
+// Supplier --> Importer
+// Importer --> Retailer
+transaction transferListing{
+  o String ownerType
+  --> User newOwner
+  --> ProductListingContract productListing
+}
+
+// Importer --> Regulator w/o hazard analysis i.e. iniitial check. onSuccess transfer assests to retailer on failure send back to importer for hazard analysis
+// Importer --> Regulator with hazard analysis. Assumes the Importer has sent the hazard analysis report to Regulator. onSuccess transfer assests to retailer
+transaction  checkProducts{
+  --> Regulator regulator
+  --> ProductListingContract productListing
+}
+
+transaction updateExemptedList{
+  o String[] newExemptedOrgIds
+  o String[] newExemptedProductIds
+  --> Regulator regulator
+}
