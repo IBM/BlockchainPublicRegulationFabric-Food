@@ -109,12 +109,11 @@ You will see the following:
 
 To test your Business Network Definition, first click on the **Test** tab:
 
-Click on the `Create New Participant` button
+In the `Supplier` participant registry, create a new participant. Make sure you click on the `Supplier` tab on the far left-hand side first and click on `Create New Participant` button.
 <p align="center">
   <img width="200" height="100" src="images/createparticipantbtn.png">
 </p>
 
-In the `Supplier` participant registry, create a new participant. Make sure you click on the `Supplier` tab on the far left-hand side.
 ```
 {
   "$class": "composer.food.supply.Supplier",
@@ -136,7 +135,7 @@ Similarly create retailer, regulator, importer participants by selecting the res
 ```
 {
   "$class": "composer.food.supply.Regulator",
-  "customId": "customA",
+  "regulatorId": "customA",
   "location": "SF",
   "exemptedOrgIds": ["ACME","XYZ CORP"],
   "exemptedProductIds": ["prodA","prodB"]
@@ -153,12 +152,12 @@ Similarly create retailer, regulator, importer participants by selecting the res
 Now we are ready to add **Access Control**. Do this by first clicking on the `admin` tab to issue **new ids** to the participants and add the ids to the wallet.
 Please follow the instructions as shown in the images below:
 
-* Click +add to my Wallet under Option 2 to actually add to your wallet.
-
 ![Admin Tab](images/admintab.png)
 
+Click on  `Issue New Id` button to create new Ids.
 ![Generate New Id](images/generateNewId.png)
 
+Click on `Add to my Wallet` link to add the newly generated Id to the `Wallet`.
 ![Add to Wallet](images/addtowallet.png)
 
 ![Ids to Wallet](images/idstowallet.png)
@@ -182,12 +181,14 @@ After executing the transaction successfully, `productListing` will be created i
 ![Product Listing](images/productListing.png)
 
 Similarly, submit a `transferListing` transaction to transfer the productListing to `Importer`.
+> `ProductListingContractID`is the id of the ProductListingContract copied from the `ProductListingContract` registry.
+
 ```
 {
   "$class": "composer.food.supply.transferListing",
   "ownerType": "supplier",
   "newOwner": "resource:composer.food.supply.Importer#importerA",
-  "productListing": "resource:composer.food.supply.ProductListingContract#06dp216mhc"
+  "productListing": "resource:composer.food.supply.ProductListingContract#<ProductListingContractID>"
 }
 ```
 
@@ -197,7 +198,7 @@ Similarly, submit a `transferListing` transaction to transfer the productListing
 {
   "$class": "composer.food.supply.checkProducts",
   "regulator": "resource:composer.food.supply.Regulator#customA",
-  "productListing": "resource:composer.food.supply.ProductListingContract#06dp216mhc"
+  "productListing": "resource:composer.food.supply.ProductListingContract#<ProductListingContractID>"
 }
 ```
 
@@ -208,7 +209,7 @@ Successful execution of transaction will change the status of productListing to 
   "$class": "composer.food.supply.transferListing",
   "ownerType": "importer",
   "newOwner": "resource:composer.food.supply.Retailer#retailerA",
-  "productListing": "resource:composer.food.supply.ProductListingContract#06dp216mhc"
+  "productListing": "resource:composer.food.supply.ProductListingContract#<ProductListingContractID>"
 }
 ```
 

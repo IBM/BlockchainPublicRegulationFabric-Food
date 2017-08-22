@@ -43,8 +43,8 @@ participant Supplier identified by supplierId extends User {
   o  String orgId
 }
 
-participant Regulator identified by customId{
-  o String customId
+participant Regulator identified by regulatorId{
+  o String regulatorId
   o String location
   o String[] exemptedOrgIds
   o String[] exemptedProductIds
