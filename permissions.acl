@@ -100,9 +100,8 @@ rule TransferListing{
       description: "Allow the owner of a product listing to transfer the listing"
       participant(m): "composer.food.supply.*"
       operation: CREATE
-      resource(v): "composer.food.supply.ProductListingContract"
-      transaction(tx): "composer.food.supply.transferListing"
-      condition: (tx.productListing.owner.getIdentifier() == m.getIdentifier())
+      resource(v): "composer.food.supply.transferListing"
+      condition: (v.productListing.owner.getIdentifier() == m.getIdentifier())
       action: ALLOW
 }
 
