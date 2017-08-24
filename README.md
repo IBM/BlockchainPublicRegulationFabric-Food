@@ -1,6 +1,6 @@
 # BlockchainPublicRegulationFabric-Food
 
-In this journey, we will create a Public Regulation Fabric example for the Food Industry.
+In this journey, we capture the regulatory compliance logic for the Food Supplier Verification Program in a smart contract deployed on a business network.
 
 This business network defines:
 
