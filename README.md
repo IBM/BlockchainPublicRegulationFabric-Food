@@ -1,6 +1,6 @@
 # BlockchainPublicRegulationFabric-Food
 
-In this journey, we will create a Public Regulation Fabric example the Food Industry. Supplier transfers the food products to an importer who verifies that the supplier, country, and food type all match with the correct identifiers. At import, the supplier is checked against a list of known suppliers in a database (managed by the regulator). If the supplier is identified as exempt, a type of exemption (identified by the orgId) submitted to the regulator and the products are then transferred to the retailer. If the supplier is identified as not exempt, the products are checked against a list of known food products in the database (managed by the regulator). The food product is transferred to the retailer if the food is identified as exempt. If the food is identified as not exempt, the importer must conduct a harms analysis (either independently, or using a third party). Attestation of the harms analysis is provided to the regulator. Regulator captures the attestation of compliance and transfers the products to the retailer.
+In this journey, we will create a Public Regulation Fabric example for the Food Industry.
 
 This business network defines:
 
@@ -12,6 +12,8 @@ This business network defines:
 
 **Transactions:**
 `createProductListing` `transferListing` `checkProducts` `updateExemptedList`
+
+Initially, the supplier will transfer the food products to an importer who verifies whether the supplier, country, and food type all match with the correct identifiers. At port of entry, the supplier is checked against a list of known suppliers in a database (managed by the regulator). If the supplier is of type exempt, then the products are then transferred to the retailer. If the supplier is of type non-exempt, then the products are checked against a list of known food products in the database (managed by the regulator). If the food is exempt product then transfer it to the retailer. If the food is a non-exempt product, the importer must conduct a harms analysis (either independently, or using a third-party). The supplier provides the harms analysis report to the regulator. The regulator reviews compliance attestation and transfers the products to the retailer.
 
 The `createProductListing` function is called when an `createProductListing` transaction is submitted. The logic allows a supplier to create a `ProductListingContract` asset.
 
@@ -31,12 +33,14 @@ The `updateExemptedList` function is called when a `updateExemptedList` transact
 * Cloud
 
 ## Application Workflow Diagram
-![Application Workflow](images/GettingStartedWComposer-arch-diagram.png)
+![Application Workflow](images/archi.png)
 
-Creating multiple participants and adding ACL
-* Adding additional participants
-* Adding Access Control Lists
-* Performing transactions
+* Install Hyperledger Composer development tools
+* Configure and start Hyperledger Fabric network
+* Generate the Business Network Archive file
+* Deploy the Business Network Archive using Composer Playground
+* (Alternative method) Deploy the Business Network Archive on Hyperledger Composer running locally
+
 
 ## Steps
 1. [Generate the Business Network Archive (BNA)](#1-generate-the-business-network-archive-bna)
