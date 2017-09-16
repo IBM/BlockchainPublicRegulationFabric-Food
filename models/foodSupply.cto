@@ -59,7 +59,7 @@ asset ProductListingContract identified by listingtId {
 }
 
 
-// Supplier creates a product listing contrat for the list of products
+// Supplier creates a product listing contract for the list of products
 transaction createProductListing{
   o String[] products
   --> User user

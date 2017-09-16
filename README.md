@@ -139,7 +139,7 @@ Similarly create retailer, regulator, importer participants by selecting the res
 ```
 {
   "$class": "composer.food.supply.Regulator",
-  "regulatorId": "customA",
+  "regulatorId": "regulatorA",
   "location": "SF",
   "exemptedOrgIds": ["ACME","XYZ CORP"],
   "exemptedProductIds": ["prodA","prodB"]
@@ -201,7 +201,7 @@ Similarly, submit a `transferListing` transaction to transfer the productListing
 ```
 {
   "$class": "composer.food.supply.checkProducts",
-  "regulator": "resource:composer.food.supply.Regulator#customA",
+  "regulator": "resource:composer.food.supply.Regulator#regulatorA",
   "productListing": "resource:composer.food.supply.ProductListingContract#<ProductListingContractID>"
 }
 ```
