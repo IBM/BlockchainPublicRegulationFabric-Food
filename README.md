@@ -303,16 +303,6 @@ You should see the LoopBack API Explorer, allowing you to inspect and test the g
 * [Hyperledger Fabric Docs](http://hyperledger-fabric.readthedocs.io/en/latest/)
 * [Hyperledger Composer Docs](https://hyperledger.github.io/composer/introduction/introduction.html)
 
-# Learn more
-
-* **Artificial Intelligence Patterns:** Enjoyed this Pattern? Check out our other [AI Patterns](https://developer.ibm.com/code/technologies/artificial-intelligence/).
-* **Data Analytics Patterns:** Enjoyed this Pattern? Check out our other [Data Analytics Patterns](https://developer.ibm.com/code/technologies/data-science/)
-* **AI and Data Pattern Playlist:** Bookmark our [playlist](https://www.youtube.com/playlist?list=PLzUbsvIyrNfknNewObx5N7uGZ5FKH0Fde) with all of our Pattern videos
-* **With Watson:** Want to take your Watson app to the next level? Looking to utilize Watson Brand assets? [Join the With Watson program](https://www.ibm.com/watson/with-watson/) to leverage exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
-* **Data Science Experience:** Master the art of data science with IBM's [Data Science Experience](https://datascience.ibm.com/)
-* **PowerAI:** Get started or get scaling, faster, with a software distribution for machine learning running on the Enterprise Platform for AI: [IBM Power Systems](https://www.ibm.com/ms-en/marketplace/deep-learning-platform)
-* **Spark on IBM Cloud:** Need a Spark cluster? Create up to 30 Spark executors on IBM Cloud with our [Spark service](https://console.bluemix.net/catalog/services/apache-spark)
-* **Kubernetes on IBM Cloud:** Deliver your apps with the combined the power of [Kubernetes and Docker on IBM Cloud](https://www.ibm.com/cloud-computing/bluemix/containers)
 
 ## License
 [Apache 2.0](LICENSE)
