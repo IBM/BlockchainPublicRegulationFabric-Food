@@ -232,25 +232,23 @@ Please start the local Fabric using the [instructions](https://github.com/IBM/Bl
 Now change directory to the `dist` folder containing `food-supply.bna` file and type:
 ```
 cd dist
-composer network deploy -a food-supply.bna -p hlfv1 -i PeerAdmin -s randomString -A admin -S
-```
-
-After sometime time business netwokr should be deployed to the local Hyperledger Fabric. You should see the output as follows:
-```
-Deploying business network from archive: food-supply.bna
-Business network definition:
-	Identifier: food-supply@0.0.1
-	Description: Sample food supplier verification network
-
-✔ Deploying business network definition. This may take a minute...
-
-
-Command succeeded
+composer runtime install --card PeerAdmin@hlfv1 --businessNetworkName food-supply
+composer network start --card PeerAdmin@hlfv1 --networkAdmin admin --networkAdminEnrollSecret adminpw --archiveFile food-supply.bna --file networkadmin.card
+composer card import --file networkadmin.card
 ```
 
 You can verify that the network has been deployed by typing:
 ```
-composer network ping -n food-supply -p hlfv1 -i admin -s adminpw
+composer network ping --card admin@food-supply
+```
+
+You should see the the output as follows:
+```
+The connection to the network was successfully tested: food-supply
+	version: 0.16.0
+	participant: org.hyperledger.composer.system.NetworkAdmin#admin
+
+Command succeeded
 ```
 
 To create the REST API we need to launch the `composer-rest-server` and tell it how to connect to our deployed business network.
@@ -261,33 +259,14 @@ composer-rest-server
 ```
 
 Answer the questions posed at startup. These allow the composer-rest-server to connect to Hyperledger Fabric and configure how the REST API is generated.
-```
-  _   _                                 _              _                                  ____                                                         
- | | | |  _   _   _ __     ___   _ __  | |   ___    __| |   __ _    ___   _ __           / ___|   ___    _ __ ___    _ __     ___    ___    ___   _ __
- | |_| | | | | | | '_ \   / _ \ | '__| | |  / _ \  / _` |  / _` |  / _ \ | '__|  _____  | |      / _ \  | '_ ` _ \  | '_ \   / _ \  / __|  / _ \ | '__|
- |  _  | | |_| | | |_) | |  __/ | |    | | |  __/ | (_| | | (_| | |  __/ | |    |_____| | |___  | (_) | | | | | | | | |_) | | (_) | \__ \ |  __/ | |   
- |_| |_|  \__, | | .__/   \___| |_|    |_|  \___|  \__,_|  \__, |  \___| |_|             \____|  \___/  |_| |_| |_| | .__/   \___/  |___/  \___| |_|   
-          |___/  |_|                                       |___/                                                    |_|                                
-? Enter your Fabric Connection Profile Name: hlfv1
-? Enter your Business Network Identifier : food-supply
-? Enter your Fabric username : admin
-? Enter your secret: adminpw
-? Specify if you want namespaces in the generated REST API: never use namespaces
-? Specify if you want the generated REST API to be secured: No
+* Enter `admin@product-auction` as the card name.
+* Select `never use namespaces` when asked whether to use namespaces in the generated API.
+* Select `No` when asked whether to secure the generated API.
+* Select `Yes` when asked whether to enable event publication.
+* Select `No` when asked whether to enable TLS security.
 
-To restart the REST server using the same options, issue the following command:
-   composer-rest-server -p hlfv1 -n food-supply -i admin -s adminpw -N never
-
-Discovering types from business network definition ...
-Discovered types from business network definition
-Generating schemas for all types in business network definition ...
-Generated schemas for all types in business network definition
-Adding schemas for all types to Loopback ...
-Added schemas for all types to Loopback
-Web server listening at: http://localhost:3000
-Browse your REST API at http://localhost:3000/explorer
-```
 **Test REST API**
+
 If the composer-rest-server started successfully you should see these two lines are output:
 ```
 Web server listening at: http://localhost:3000
