@@ -259,7 +259,7 @@ composer-rest-server
 ```
 
 Answer the questions posed at startup. These allow the composer-rest-server to connect to Hyperledger Fabric and configure how the REST API is generated.
-* Enter `admin@product-auction` as the card name.
+* Enter `admin@food-supply` as the card name.
 * Select `never use namespaces` when asked whether to use namespaces in the generated API.
 * Select `No` when asked whether to secure the generated API.
 * Select `Yes` when asked whether to enable event publication.
