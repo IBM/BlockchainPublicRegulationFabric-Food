@@ -12,180 +12,236 @@
  * limitations under the License.
  */
 'use strict';
-
+/**
+ * Write the unit tests for your transction processor functions here
+ */
 const AdminConnection = require('composer-admin').AdminConnection;
-const BrowserFS = require('browserfs/dist/node/index');
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
-const BusinessNetworkDefinition = require('composer-common').BusinessNetworkDefinition;
+const {
+  BusinessNetworkDefinition,
+  CertificateUtil,
+  IdCard
+} = require('composer-common');
 const path = require('path');
-require('chai').should();
-var expect = require('chai').expect
-//require('chai').expect();
-const bfs_fs = BrowserFS.BFSRequire('fs');
-const NS = 'composer.food.supply';
-
-describe('FoodSupply - Test', () => {
-  var businessNetworkConnection;
-    before(function() {
-        BrowserFS.initialize(new BrowserFS.FileSystem.InMemory());
-        var adminConnection = new AdminConnection({ fs: bfs_fs });
-        return adminConnection.createProfile('defaultProfile', {
-            type: 'embedded'
-        })
-        .then(function() {
-            return adminConnection.connect('defaultProfile', 'admin', 'Xurw3yU9zI0l');
-        })
-        .then(function() {
-            return BusinessNetworkDefinition.fromDirectory(path.resolve(__dirname, '..'));
-        })
-        .then(function(businessNetworkDefinition) {
-            return adminConnection.deploy(businessNetworkDefinition);
-        })
-        .then(function() {
-            businessNetworkConnection = new BusinessNetworkConnection({ fs: bfs_fs });
-            return businessNetworkConnection.connect('defaultProfile', 'food-supply', 'admin', 'Xurw3yU9zI0l');
-        });
+const chai = require('chai');
+chai.should();
+chai.use(require('chai-as-promised'));
+const namespace = 'composer.food.supply';
+describe('#' + namespace, () => {
+  // In-memory card store for testing so cards are not persisted to the file system
+  const cardStore = require('composer-common').NetworkCardStoreManager.getCardStore({
+    type: 'composer-wallet-inmemory'
+  });
+  // Embedded connection used for local testing
+  const connectionProfile = {
+    name: 'embedded',
+    'x-type': 'embedded'
+  };
+  // Name of the business network card containing the administrative identity for the business network
+  const adminCardName = 'admin';
+  // Admin connection to the blockchain, used to deploy the business network
+  let adminConnection;
+  // This is the business network connection the tests will use.
+  let businessNetworkConnection;
+  // This is the factory for creating instances of types.
+  let factory;
+  // These are the identities for Alice and Bob.
+  const importerCardName = 'importer';
+  const retailerCardName = 'retailer';
+  const regulatorCardName = 'regulator';
+  const supplierCardName = 'supplier';
+  // These are a list of receieved events.
+  let events;
+  let businessNetworkName;
+  before(async () => {
+    // Generate certificates for use with the embedded connection
+    const credentials = CertificateUtil.generate({
+      commonName: 'admin'
     });
-    describe('#FSVP', () => {
-        it('Create Participants', () => {
-            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-            // create supplier
-            const supplier = factory.newResource(NS, 'Supplier', 'supplier@acme.org');
-            supplier.countryId = 'UK';
-            supplier.orgId = 'XYZ Corp';
-            // create importer
-            const importer = factory.newResource(NS, 'Importer', 'importer@acme.org');
-            // create retailer
-            const retailer = factory.newResource(NS, 'Retailer', 'retailer@acme.org');
-            retailer.products=[];
-
-            const regulator = factory.newResource(NS, 'Regulator', 'regulator@acme.org');
-            regulator.location="SF";
-            regulator.exemptedOrgIds=["XYZ Corp"];
-            regulator.exemptedProductIds=[];
-
-            const listing = factory.newTransaction(NS, 'createProductListing');
-            listing.products = ["producta,5"];
-            listing.user=factory.newRelationship(NS, 'Supplier', supplier.$identifier);
-            // Get the asset registry.
-            return businessNetworkConnection.getParticipantRegistry(NS + '.Supplier')
-                  .then((supplierRegistry) => {
-                      return supplierRegistry.add(supplier);
-                  })
-                  .then(() => {
-                      return businessNetworkConnection.getParticipantRegistry(NS + '.Importer')
-                  })
-                  .then((importerRegistry) => {
-                      return importerRegistry.add(importer);
-                  })
-                  .then(() => {
-                      return businessNetworkConnection.getParticipantRegistry(NS + '.Retailer')
-                  })
-                  .then((retailerRegistry) => {
-                      return retailerRegistry.add(retailer);
-                  })
-                  .then(() => {
-                      return businessNetworkConnection.getParticipantRegistry(NS + '.Regulator')
-                  })
-                  .then((regulatorRegistry) => {
-                      return regulatorRegistry.add(regulator);
-                  })
-                  .then(() => {
-                      return businessNetworkConnection.submitTransaction(listing);
-                  })
-                  .then(() => {
-                      return businessNetworkConnection.getAssetRegistry(NS + '.ProductListingContract')
-                  })
-                  .then((productListingRegistry)=>{
-                        return productListingRegistry.getAll();
-                  })
-                  .then((productListing)=>{
-                      return productListing[0].owner.$identifier.should.equal(supplier.$identifier);
-                  });
-            });
-
-          it('Transfer ProductListing to Importer', () => {
-              const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-              // Get the asset registry.
-              var productRegistry=null;
-              var listingtId=null;
-              var importerId='importer@acme.org';
-              return businessNetworkConnection.getAssetRegistry(NS + '.ProductListingContract')
-                   .then((productListingRegistry)=>{
-                       productRegistry=productListingRegistry
-                       return productListingRegistry.getAll();
-                   })
-                   .then((productListing)=>{
-                       //console.log(productListing);
-                       listingtId = productListing[0].getIdentifier();
-                       const listing = factory.newTransaction(NS, 'transferListing');
-                       listing.ownerType= "supplier";
-                       listing.newOwner=factory.newRelationship(NS, 'Importer', importerId);
-                       listing.productListing=factory.newRelationship(NS, 'ProductListingContract', productListing[0].getIdentifier());
-                       return businessNetworkConnection.submitTransaction(listing);
-                   })
-                   .then(function() {
-                      return productRegistry.get(listingtId);
-                   })
-                   .then(function(registry) {
-                        return registry.owner.$identifier.should.equal(importerId);
-                   });
-
-            });
-
-
-         it('Exempt Check for ProductListing', () => {
-              const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-              var productRegistry=null;
-              var listingtId=null;
-              var regulatorId='regulator@acme.org';
-              var importerId='importer@acme.org';
-              return businessNetworkConnection.getAssetRegistry(NS + '.ProductListingContract')
-                   .then((productListingRegistry)=>{
-                       productRegistry=productListingRegistry
-                       return productListingRegistry.getAll();
-                   })
-                   .then((productListing)=>{
-                       listingtId = productListing[0].getIdentifier();
-                       const listing = factory.newTransaction(NS, 'checkProducts');
-                       listing.regulator=factory.newRelationship(NS, 'Regulator', regulatorId);
-                       listing.productListing=factory.newRelationship(NS, 'ProductListingContract', productListing[0].getIdentifier());
-                       return businessNetworkConnection.submitTransaction(listing);
-                   })
-                   .then(function() {
-                       return productRegistry.get(listingtId);
-                   })
-                   .then(function(registry) {
-                         return registry.owner.$identifier.should.equal(importerId);
-                   });
-
-          });
-
-          it('Transfer ProductListing to Retailer', () => {
-              const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-              var productRegistry=null;
-              var listingtId=null;
-              var retailerId='retailer@acme.org';
-              return businessNetworkConnection.getAssetRegistry(NS + '.ProductListingContract')
-                   .then((productListingRegistry)=>{
-                       productRegistry=productListingRegistry
-                       return productListingRegistry.getAll();
-                   })
-                   .then((productListing)=>{
-                       listingtId = productListing[0].getIdentifier();
-                       const listing = factory.newTransaction(NS, 'transferListing');
-                       listing.ownerType= "importer";
-                       listing.newOwner=factory.newRelationship(NS, 'Retailer', retailerId);
-                       listing.productListing=factory.newRelationship(NS, 'ProductListingContract', productListing[0].getIdentifier());
-                       return businessNetworkConnection.submitTransaction(listing);
-                   })
-                   .then(function() {
-                       return productRegistry.get(listingtId);
-                   })
-                   .then(function(registry) {
-                         return registry.owner.$identifier.should.equal(retailerId);
-                   });
-          });
-
-        });
+    // Identity used with the admin connection to deploy business networks
+    const deployerMetadata = {
+      version: 1,
+      userName: 'PeerAdmin',
+      roles: ['PeerAdmin', 'ChannelAdmin']
+    };
+    const deployerCard = new IdCard(deployerMetadata, connectionProfile);
+    deployerCard.setCredentials(credentials);
+    const deployerCardName = 'PeerAdmin';
+    adminConnection = new AdminConnection({
+      cardStore: cardStore
+    });
+    await adminConnection.importCard(deployerCardName, deployerCard);
+    await adminConnection.connect(deployerCardName);
+  });
+  /**
+   *
+   * @param {String} cardName The card name to use for this identity
+   * @param {Object} identity The identity details
+   */
+  async function importCardForIdentity(cardName, identity) {
+    const metadata = {
+      userName: identity.userID,
+      version: 1,
+      enrollmentSecret: identity.userSecret,
+      businessNetwork: businessNetworkName
+    };
+    const card = new IdCard(metadata, connectionProfile);
+    await adminConnection.importCard(cardName, card);
+  }
+  // This is called before each test is executed.
+  beforeEach(async () => {
+    // Generate a business network definition from the project directory.
+    let businessNetworkDefinition = await BusinessNetworkDefinition.fromDirectory(path.resolve(__dirname, '..'));
+    businessNetworkName = businessNetworkDefinition.getName();
+    await adminConnection.install(businessNetworkDefinition);
+    const startOptions = {
+      networkAdmins: [{
+        userName: 'admin',
+        enrollmentSecret: 'adminpw'
+      }]
+    };
+    const adminCards = await adminConnection.start(businessNetworkName, businessNetworkDefinition.getVersion(), startOptions);
+    await adminConnection.importCard(adminCardName, adminCards.get('admin'));
+    // Create and establish a business network connection
+    businessNetworkConnection = new BusinessNetworkConnection({
+      cardStore: cardStore
+    });
+    events = [];
+    businessNetworkConnection.on('event', event => {
+      events.push(event);
+    });
+    await businessNetworkConnection.connect(adminCardName);
+    // Get the factory for the business network.
+    const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+    /////////
+    // create supplier
+    const supplier = factory.newResource(namespace, 'Supplier', 'supplier@acme.org');
+    supplier.countryId = 'UK';
+    supplier.orgId = 'XYZ Corp';
+    // create importer
+    const importer = factory.newResource(namespace, 'Importer', 'importer@acme.org');
+    // create retailer
+    const retailer = factory.newResource(namespace, 'Retailer', 'retailer@acme.org');
+    retailer.products = [];
+    const regulator = factory.newResource(namespace, 'Regulator', 'regulator@acme.org');
+    regulator.location = "SF";
+    regulator.exemptedOrgIds = ["XYZ Corp"];
+    regulator.exemptedProductIds = [];
+    const importerNS = namespace + '.Importer';
+    const retailerNS = namespace + '.Retailer';
+    const regulatorNS = namespace + '.Regulator';
+    const supplierNS = namespace + '.Supplier';
+    const importerRegistry = await businessNetworkConnection.getParticipantRegistry(importerNS);
+    const retailerRegistry = await businessNetworkConnection.getParticipantRegistry(retailerNS);
+    const regulatorRegistry = await businessNetworkConnection.getParticipantRegistry(regulatorNS);
+    const supplierRegistry = await businessNetworkConnection.getParticipantRegistry(supplierNS);
+    await supplierRegistry.add(supplier);
+    await importerRegistry.add(importer);
+    await retailerRegistry.add(retailer);
+    await regulatorRegistry.add(regulator);
+    let identity = await businessNetworkConnection.issueIdentity(supplierNS + '#supplier@acme.org', 'supplier');
+    await importCardForIdentity(supplierCardName, identity);
+    identity = await businessNetworkConnection.issueIdentity(importerNS + '#importer@acme.org', 'importer');
+    await importCardForIdentity(importerCardName, identity);
+    identity = await businessNetworkConnection.issueIdentity(retailerNS + '#retailer@acme.org', 'retailer');
+    await importCardForIdentity(retailerCardName, identity);
+    identity = await businessNetworkConnection.issueIdentity(regulatorNS + '#regulator@acme.org', 'regulator');
+    await importCardForIdentity(retailerCardName, identity);
+    await useIdentity(supplierCardName);
+    const listing = factory.newTransaction(namespace, 'createProductListing');
+    listing.products = ["producta,5"];
+    listing.user = factory.newRelationship(namespace, 'Supplier', supplier.$identifier);
+    // Get the asset registry.
+    await businessNetworkConnection.submitTransaction(listing);
+    const assetRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.ProductListingContract');
+    const assets = await assetRegistry.getAll();
+    assets[0].owner.$identifier.should.equal(supplier.$identifier);
+  });
+  /**
+   * Reconnect using a different identity.
+   * @param {String} cardName The name of the card for the identity to use
+   */
+  async function useIdentity(cardName) {
+    await businessNetworkConnection.disconnect();
+    businessNetworkConnection = new BusinessNetworkConnection({
+      cardStore: cardStore
+    });
+    events = [];
+    businessNetworkConnection.on('event', (event) => {
+      events.push(event);
+    });
+    await businessNetworkConnection.connect(cardName);
+    factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+  }
+  it('Transfer ProductListing to Importer', async () => {
+    await useIdentity(supplierCardName);
+    const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+    const assetRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.ProductListingContract');
+    const assets = await assetRegistry.getAll();
+    var importerId = 'importer@acme.org';
+    var listingId = assets[0].getIdentifier();
+    const listing = factory.newTransaction(namespace, 'transferListing');
+    listing.ownerType = "supplier";
+    listing.newOwner = factory.newRelationship(namespace, 'Importer', importerId);
+    listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
+    await businessNetworkConnection.submitTransaction(listing);
+    var productRegistry = await assetRegistry.get(listingId);
+    productRegistry.owner.$identifier.should.equal(importerId);
+  });
+  it('Exempt Check for ProductListing', async () => {
+    await useIdentity(supplierCardName);
+    const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+    const assetRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.ProductListingContract');
+    const assets = await assetRegistry.getAll();
+    var importerId = 'importer@acme.org';
+    var listingId = assets[0].getIdentifier();
+    var listing = factory.newTransaction(namespace, 'transferListing');
+    listing.ownerType = "supplier";
+    listing.newOwner = factory.newRelationship(namespace, 'Importer', importerId);
+    listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
+    await businessNetworkConnection.submitTransaction(listing);
+    var productRegistry = await assetRegistry.get(listingId);
+    productRegistry.owner.$identifier.should.equal(importerId);
+    await useIdentity(importerCardName);
+    var regulatorId = 'regulator@acme.org';
+    var importerId = 'importer@acme.org';
+    listing = factory.newTransaction(namespace, 'checkProducts');
+    listing.regulator = factory.newRelationship(namespace, 'Regulator', regulatorId);
+    listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
+    await businessNetworkConnection.submitTransaction(listing);
+    productRegistry = await assetRegistry.get(listingId);
+    productRegistry.owner.$identifier.should.equal(importerId);
+  });
+  it('Transfer ProductListing to Retailer', async () => {
+    await useIdentity(supplierCardName);
+    const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+    const assetRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.ProductListingContract');
+    const assets = await assetRegistry.getAll();
+    var importerId = 'importer@acme.org';
+    var listingId = assets[0].getIdentifier();
+    var listing = factory.newTransaction(namespace, 'transferListing');
+    listing.ownerType = "supplier";
+    listing.newOwner = factory.newRelationship(namespace, 'Importer', importerId);
+    listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
+    await businessNetworkConnection.submitTransaction(listing);
+    var productRegistry = await assetRegistry.get(listingId);
+    productRegistry.owner.$identifier.should.equal(importerId);
+    await useIdentity(importerCardName);
+    var regulatorId = 'regulator@acme.org';
+    var importerId = 'importer@acme.org';
+    listing = factory.newTransaction(namespace, 'checkProducts');
+    listing.regulator = factory.newRelationship(namespace, 'Regulator', regulatorId);
+    listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
+    await businessNetworkConnection.submitTransaction(listing);
+    productRegistry = await assetRegistry.get(listingId);
+    productRegistry.owner.$identifier.should.equal(importerId);
+    var retailerId = 'retailer@acme.org';
+    listing = factory.newTransaction(namespace, 'transferListing');
+    listing.ownerType = "importer";
+    listing.newOwner = factory.newRelationship(namespace, 'Retailer', retailerId);
+    listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
+    await businessNetworkConnection.submitTransaction(listing);
+    productRegistry = await assetRegistry.get(listingId);
+    productRegistry.owner.$identifier.should.equal(retailerId);
+  });
 });

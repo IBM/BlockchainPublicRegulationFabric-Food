@@ -23,6 +23,10 @@ The `checkProducts` function is called when a `checkProducts` transaction is sub
 
 The `updateExemptedList` function is called when a `updateExemptedList` transaction is submitted by the `Regulator` to update the list of exempted Orgs ids and Product ids.
 
+Audience level : Intermediate Developers
+
+If you have an IBM cloud lite account, you can also use the Starter Plan for 30 days to do this pattern.
+
 ## Included Components
 * Hyperledger Fabric
 * Hyperledger Composer
@@ -82,17 +86,15 @@ npm test
 ```
 You should see the following output :
 ```
-> food-supply@0.0.1 test /Users/ishan/Documents/git-demo/BlockchainPublicRegulationFabric-Food
+> food-supply@0.0.1 test /Users/ishan/Documents/demo/BlockchainPublicRegulationFabric-Food
 > mocha --recursive
 
-  FoodSupply - Test
-    #FSVP
-      ✓ Create Participants (185ms)
-      ✓ Transfer ProductListing to Importer
-      ✓ Exempt Check for ProductListing (41ms)
-      ✓ Transfer ProductListing to Retailer (56ms)
+  #composer.food.supply
+    ✓ Transfer ProductListing to Importer (67ms)
+    ✓ Exempt Check for ProductListing (98ms)
+    ✓ Transfer ProductListing to Retailer (95ms)
 
-  4 passing (1s)
+  3 passing (2s)
 ```
 
 ## 2. Deploy the Business Network Archive using Composer Playground
