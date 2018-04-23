@@ -246,9 +246,10 @@ composer network ping --card admin@food-supply
 
 You should see the the output as follows:
 ```
-The connection to the network was successfully tested: food-supply
-	version: 0.16.0
+The connection to the network was successfully tested: events
+	version: 0.18.1
 	participant: org.hyperledger.composer.system.NetworkAdmin#admin
+	identity: org.hyperledger.composer.system.Identity#1f95efceac5421ad34d73130c8f16fbc2d29b7dce0c3425afb3b5f077242b1fc
 
 Command succeeded
 ```
