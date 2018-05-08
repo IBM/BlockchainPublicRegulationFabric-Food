@@ -1,6 +1,6 @@
 {
   "name": "food-supply",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Sample food supplier verification network",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/food-supply.bna",
@@ -10,12 +10,12 @@
   "email": "admin@example.org",
   "license": "Apache-2.0",
   "devDependencies": {
-    "composer-admin": "^0.19.1",
-    "composer-cli": "^0.19.1",
-    "composer-client": "^0.19.1",
-    "composer-common": "^0.19.1",
-    "composer-connector-embedded": "^0.19.1",
-    "composer-cucumber-steps": "^0.19.1",
+    "composer-admin": "^0.19.4",
+    "composer-cli": "^0.19.4",
+    "composer-client": "^0.19.4",
+    "composer-common": "^0.19.4",
+    "composer-connector-embedded": "^0.19.4",
+    "composer-cucumber-steps": "^0.19.4",
     "chai": "latest",
     "chai-as-promised": "latest",
     "cucumber": "^2.2.0",
