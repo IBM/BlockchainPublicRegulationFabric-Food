@@ -1,6 +1,6 @@
 {
   "name": "food-supply",
-  "version": "0.0.3",
+  "version": "0.0.1",
   "description": "Sample food supplier verification network",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/food-supply.bna",
