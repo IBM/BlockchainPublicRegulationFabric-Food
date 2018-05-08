@@ -234,8 +234,8 @@ Please start the local Fabric using the [instructions](https://github.com/IBM/Bl
 Now change directory to the `dist` folder containing `food-supply.bna` file and type:
 ```
 cd dist
-composer runtime install --card PeerAdmin@hlfv1 --businessNetworkName food-supply
-composer network start --card PeerAdmin@hlfv1 --networkAdmin admin --networkAdminEnrollSecret adminpw --archiveFile food-supply.bna --file networkadmin.card
+composer network install --card PeerAdmin@hlfv1 --archiveFile food-supply.bna
+composer network start --networkName food-supply --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card
 composer card import --file networkadmin.card
 ```
 
@@ -246,10 +246,11 @@ composer network ping --card admin@food-supply
 
 You should see the the output as follows:
 ```
-The connection to the network was successfully tested: events
-	version: 0.18.1
+The connection to the network was successfully tested: food-supply
+	Business network version: 0.0.1
+	Composer runtime version: 0.19.4
 	participant: org.hyperledger.composer.system.NetworkAdmin#admin
-	identity: org.hyperledger.composer.system.Identity#1f95efceac5421ad34d73130c8f16fbc2d29b7dce0c3425afb3b5f077242b1fc
+	identity: org.hyperledger.composer.system.Identity#c1d5b4919bb775fef75f407050c7fa292ce79d7f978703e974cb8f19404d100c
 
 Command succeeded
 ```
