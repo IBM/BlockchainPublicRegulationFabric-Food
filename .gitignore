@@ -60,3 +60,5 @@ dist
 
 node_modules
 *.card
+
+DevServer_connection.json

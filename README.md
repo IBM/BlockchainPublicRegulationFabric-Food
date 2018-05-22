@@ -160,8 +160,7 @@ Similarly create `retailer`, `regulator` and `importer` participants by selectin
 }
 ```
 
-Now we are ready to add **Access Control**. Do this by first clicking on the `admin` tab to issue **new IDs** to the participants and add the IDs to the wallet.
-Please follow the instructions as shown in the images below:
+Now we are ready to add **Access Control**. Do this by first clicking the `admin` tab followed by `ID Registry` to issue **new IDs** to the participants and to add these IDs to the wallet. Please follow the instructions as shown in the images below:
 
 ![Admin Tab](images/admintab.png)
 
@@ -231,7 +230,7 @@ The transaction will the change the owner of `ProductListingContract` and update
 
 ## 3. Deploy the Business Network Archive on Hyperledger Composer running locally
 
-Please start the local Fabric using the [instructions](https://hyperledger.github.io/composer/latest/installing/development-tools#step-4-install-hyperledger-fabric).
+Please start the local Fabric using the [instructions](https://hyperledger.github.io/composer/latest/installing/development-tools#starting-and-stopping-hyperledger-fabric).
 Now change directory to the `dist` folder containing `food-supply.bna` file and type:
 
 ```
@@ -250,7 +249,7 @@ You should see the the output as follows:
 ```
 The connection to the network was successfully tested: food-supply
 	Business network version: 0.0.1
-	Composer runtime version: 0.19.5
+	Composer runtime version: 0.19.4
 	participant: org.hyperledger.composer.system.NetworkAdmin#admin
 	identity: org.hyperledger.composer.system.Identity#c1d5b4919bb775fef75f407050c7fa292ce79d7f978703e974cb8f19404d100c
 
@@ -267,7 +266,8 @@ composer-rest-server
 Answer the questions posed at startup. These allow the composer-rest-server to connect to Hyperledger Fabric and configure how the REST API is generated.
 * Enter `admin@food-supply` as the card name.
 * Select `never use namespaces` when asked whether to use namespaces in the generated API.
-* Select `No` when asked whether to secure the generated API.
+* Select `No` when asked whether to use an API key to secure the generated API.
+* Select `No` when asked whether to enable authentication for the REST API using Passport.
 * Select `Yes` when asked whether to enable event publication.
 * Select `No` when asked whether to enable TLS security.
 
