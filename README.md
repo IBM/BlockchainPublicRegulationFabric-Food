@@ -106,7 +106,7 @@ Next, click the `Deploy a new business network` button
 
 ![Deploy new network 1](images/deploy-new-network-1.png)
 
-and drop the `food-supply.bna` file downloaded above in the `Drop here to upload or browse` area. 
+and drop the `food-supply.bna` file (downloaded above) in the `Drop here to upload or browse` area. 
 
 ![Deploy new network 2](images/deploy-new-network-2.png)
 
@@ -115,9 +115,8 @@ Finally, click Deploy to deploy the BNA.
 >You can also setup [Composer Playground locally](https://hyperledger.github.io/composer/installing/using-playground-locally.html).
 
 Once imported, click `Connect now` on the admin card. You should see the following:
-<p align="center">
-  <img width="500" src="images/composerplayground.png">
-</p>
+
+![Composer Playground](images/composerplayground.png)
 
 To test your Business Network Definition, first click on the **Test** tab:
 
