@@ -121,9 +121,9 @@ Once imported, click `Connect now` on the admin card. You should see the followi
 To test your Business Network Definition, first click on the **Test** tab:
 
 In the `Supplier` participant registry, create a new participant. Make sure you click on the `Supplier` tab on the far left-hand side first and click on `Create New Participant` button.
-<p align="center">
-  <img width="200" height="100" src="images/createparticipantbtn.png">
-</p>
+
+![Create participant](images/createparticipant.png)
+
 Enter the following information to create the supplier.
 ```
 {
