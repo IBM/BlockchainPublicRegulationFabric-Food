@@ -134,7 +134,7 @@ Enter the following information to create the supplier.
 }
 ```
 
-Similarly create retailer, regulator and importer participants by selecting the respective tabs and provide the information as follows:
+Similarly create `retailer`, `regulator` and `importer` participants by selecting the respective tabs and provide the information as follows:
 ```
 {
   "$class": "composer.food.supply.Retailer",
