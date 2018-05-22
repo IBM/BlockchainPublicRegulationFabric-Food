@@ -112,7 +112,7 @@ and drop the `food-supply.bna` file (downloaded above) in the `Drop here to uplo
 
 Finally, click Deploy to deploy the BNA.
 
->You can also setup [Composer Playground locally](https://hyperledger.github.io/composer/latest/installing/development-tools).
+>You can also setup [Composer Playground locally](https://hyperledger.github.io/composer/latest/installing/development-tools#step-2-install-playground).
 
 Once imported, click `Connect now` on the admin card. You should see the following:
 
@@ -231,7 +231,7 @@ The transaction will the change the owner of `ProductListingContract` and update
 
 ## 3. Deploy the Business Network Archive on Hyperledger Composer running locally
 
-Please start the local Fabric using the [instructions](https://hyperledger.github.io/composer/latest/installing/development-tools#Step-4:-Install-Hyperledger-Fabric).
+Please start the local Fabric using the [instructions](https://hyperledger.github.io/composer/latest/installing/development-tools#step-4-install-hyperledger-fabric).
 Now change directory to the `dist` folder containing `food-supply.bna` file and type:
 
 ```
