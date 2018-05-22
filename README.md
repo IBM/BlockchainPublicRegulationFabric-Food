@@ -98,7 +98,7 @@ You should see the following output :
 ```
 
 ## 2. Deploy the Business Network Archive using Composer Playground
-Use Ctrl-click (or the equivalent action for your system) to open the <a href="https://ibm.box.com/v/demo-workspace" target=download>food-supply.bna</a> file in a separate tab. Click **Download** to download this file to your own device.
+Use Ctrl-click (or the equivalent action for your system) to open the <a href="https://ibm.box.com/v/food-supply" target=download>food-supply.bna</a> file in a separate tab. Click **Download** to download this file to your own device.
 
 Open [Composer Playground](http://composer-playground.mybluemix.net/). If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console.
 
@@ -112,7 +112,7 @@ and drop the `food-supply.bna` file (downloaded above) in the `Drop here to uplo
 
 Finally, click Deploy to deploy the BNA.
 
->You can also setup [Composer Playground locally](https://hyperledger.github.io/composer/installing/using-playground-locally.html).
+>You can also setup [Composer Playground locally](https://hyperledger.github.io/composer/latest/installing/development-tools).
 
 Once imported, click `Connect now` on the admin card. You should see the following:
 
@@ -124,7 +124,7 @@ In the `Supplier` participant registry, create a new participant. Make sure you 
 <p align="center">
   <img width="200" height="100" src="images/createparticipantbtn.png">
 </p>
-
+Enter the following information to create the supplier.
 ```
 {
   "$class": "composer.food.supply.Supplier",
@@ -134,7 +134,7 @@ In the `Supplier` participant registry, create a new participant. Make sure you 
 }
 ```
 
-Similarly create retailer, regulator, importer participants by selecting the respective tabs.
+Similarly create retailer, regulator and importer participants by selecting the respective tabs and provide the information as follows:
 ```
 {
   "$class": "composer.food.supply.Retailer",
@@ -160,12 +160,13 @@ Similarly create retailer, regulator, importer participants by selecting the res
 }
 ```
 
-Now we are ready to add **Access Control**. Do this by first clicking on the `admin` tab to issue **new ids** to the participants and add the ids to the wallet.
+Now we are ready to add **Access Control**. Do this by first clicking on the `admin` tab to issue **new IDs** to the participants and add the IDs to the wallet.
 Please follow the instructions as shown in the images below:
 
 ![Admin Tab](images/admintab.png)
 
 Click on  `Issue New ID` button to create new IDs.
+
 ![Generate New Id](images/generateNewId.png)
 
 Repeat the above step to also create IDs for the importer, regulator and retailer. Once you completed the creation of the four IDs, select the `Supplier id` from the list and click `Use now`. 
@@ -182,7 +183,7 @@ Next, click on the `test tab` to perform `createProductListing` and `transferLis
 }
 ```
 
-After executing the transaction successfully, `productListing` will be created in `ProductListingContract` registry.
+After executing the transaction successfully, a `productListing` will be created in `ProductListingContract` registry.
 
 ![Product Listing](images/productListing.png)
 
@@ -198,7 +199,7 @@ Similarly, submit a `transferListing` transaction to transfer the productListing
 }
 ```
 
-`importerA` will be the owner of `ProductListingContract` and the status will be `EXEMPTCHECKREQ`. Also, productListing will be removed from the `Supplier` view. Now select the `importer` id from the `ID Registry` and submit a `checkProducts` transaction to perform the exempt check for the products.
+Now `importerA` will be the owner of `ProductListingContract` and the status will be `EXEMPTCHECKREQ`. Also, the `productListing` will be removed from the `Supplier` view. Now select the `Importer  ID` from the `ID Registry` and submit a `checkProducts` transaction to perform the exempt check for the products.
 
 ```
 {
@@ -219,7 +220,7 @@ A successful execution of the transaction will change the status of productListi
 }
 ```
 
-The transaction will the change the owner of `ProductListingContract` and update the list of products in `Retailer` registry. Select the `Retailer` id from the `ID Registry` and view the updated registries.
+The transaction will the change the owner of `ProductListingContract` and update the list of products in `Retailer` registry. Select the `Retailer id` from the `ID Registry` and view the updated registries.
 
 ![Product Listing](images/retailerPL.png)
 
@@ -230,8 +231,9 @@ The transaction will the change the owner of `ProductListingContract` and update
 
 ## 3. Deploy the Business Network Archive on Hyperledger Composer running locally
 
-Please start the local Fabric using the [instructions](https://github.com/IBM/BlockchainNetwork-CompositeJourney#2-starting-hyperledger-fabric).
+Please start the local Fabric using the [instructions](https://hyperledger.github.io/composer/latest/installing/development-tools#Step-4:-Install-Hyperledger-Fabric).
 Now change directory to the `dist` folder containing `food-supply.bna` file and type:
+
 ```
 cd dist
 composer network install --card PeerAdmin@hlfv1 --archiveFile food-supply.bna
@@ -248,7 +250,7 @@ You should see the the output as follows:
 ```
 The connection to the network was successfully tested: food-supply
 	Business network version: 0.0.1
-	Composer runtime version: 0.19.4
+	Composer runtime version: 0.19.5
 	participant: org.hyperledger.composer.system.NetworkAdmin#admin
 	identity: org.hyperledger.composer.system.Identity#c1d5b4919bb775fef75f407050c7fa292ce79d7f978703e974cb8f19404d100c
 
@@ -284,7 +286,7 @@ You should see the LoopBack API Explorer, allowing you to inspect and test the g
 
 ## Additional Resources
 * [Hyperledger Fabric Docs](http://hyperledger-fabric.readthedocs.io/en/latest/)
-* [Hyperledger Composer Docs](https://hyperledger.github.io/composer/introduction/introduction.html)
+* [Hyperledger Composer Docs](https://hyperledger.github.io/composer/latest/introduction/introduction.html)
 
 
 ## License
