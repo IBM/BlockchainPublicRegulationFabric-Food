@@ -100,9 +100,9 @@ You should see the following output :
 ## 2. Deploy the Business Network Archive using Composer Playground
 Use Ctrl-click (or the equivalent action for your system) to open the <a href="https://ibm.box.com/v/food-supply" target=download>food-supply.bna</a> file in a separate tab. Click **Download** to download this file to your own device.
 
-Open [Composer Playground](http://composer-playground.mybluemix.net/). If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console.
+Open [Composer Playground](http://composer-playground.mybluemix.net/). If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console, or to use the option presented to you by Composer Playground.
 
-Next, click the `Deploy a new business network` button
+Next, click the `Deploy a new business network` button.
 
 ![Deploy new network 1](images/deploy-new-network-1.png)
 
@@ -183,11 +183,12 @@ Next, click on the `test tab` to perform `createProductListing` and `transferLis
 ```
 
 After executing the transaction successfully, a `productListing` will be created in `ProductListingContract` registry.
+> It is worth copying the ID of the ProductListingContract to your clipboard as you need to provide this ID in the next couple of steps as well.
 
 ![Product Listing](images/productListing.png)
 
 Similarly, submit a `transferListing` transaction to transfer the productListing to the `Importer`.
-> `ProductListingContractID` is the id of the ProductListingContract copied from the `ProductListingContract` registry.
+> `ProductListingContractID` is the ID of the ProductListingContract copied from the `ProductListingContract` registry.
 
 ```
 {
