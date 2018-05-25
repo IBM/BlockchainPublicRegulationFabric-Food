@@ -19,7 +19,7 @@ The `createProductListing` function is called when an `createProductListing` tra
 
 The `transferListing` function is called when a `transferListing` transaction is submitted by the owner of `ProductListingContract`. It is submitted either by `Supplier` to transfer `ProductListingContract` to `Importer` or by `Importer` to transfer `ProductListingContract` to `Retailer` when the exempt check for the products is completed.
 
-The `checkProducts` function is called when a `checkProducts` transaction is submitted by the `Supplier` to perform the exempt check for the products present in the `ProductListingContract`. The status of `ProductListingContract` contract will change to `CHECKCOMPLETED` if all all the products are exempted else the status will change to `HAZARDANALYSISCHECKREQ`. `HAZARDANALYSISCHECKREQ` means the `Supplier` needs to provide Hazard Analysis report for the products. After submitting the report `Supplier` performs the `checkProducts` transaction to complete the exempt check for the products.
+The `checkProducts` function is called when a `checkProducts` transaction is submitted by the `Supplier` to perform the exempt check for the products present in the `ProductListingContract`. The status of `ProductListingContract` contract will change to `CHECKCOMPLETED` if  all the products are exempted else the status will change to `HAZARDANALYSISCHECKREQ`. `HAZARDANALYSISCHECKREQ` means the `Supplier` needs to provide Hazard Analysis report for the products. After submitting the report `Supplier` performs the `checkProducts` transaction to complete the exempt check for the products.
 
 The `updateExemptedList` function is called when a `updateExemptedList` transaction is submitted by the `Regulator` to update the list of exempted Orgs ids and Product ids.
 
@@ -80,7 +80,7 @@ Command succeeded
 The `composer archive create` command has created a file called `food-supply.bna` in the `dist` folder.
 
 You can test the business network definition against the embedded runtime that stores the state of 'the blockchain' in-memory in a Node.js process.
-From your project working directory, open the file test/foodTest.js and run the following command:
+From your project working directory, open the file `test/foodTest.js` and run the following command:
 ```
 npm test
 ```
@@ -110,7 +110,7 @@ and drop the `food-supply.bna` file (downloaded above) in the `Drop here to uplo
 
 ![Deploy new network 2](images/deploy-new-network-2.png)
 
-Finally, click Deploy to deploy the BNA.
+Finally, click `Deploy` to deploy the BNA.
 
 >You can also setup [Composer Playground locally](https://hyperledger.github.io/composer/latest/installing/development-tools#step-2-install-playground).
 
@@ -187,7 +187,7 @@ After executing the transaction successfully, a `productListing` will be created
 
 ![Product Listing](images/productListing.png)
 
-Similarly, submit a `transferListing` transaction to transfer the productListing to the `Importer`.
+Similarly, submit a `transferListing` transaction to transfer the `productListing` to the `Importer`.
 > `ProductListingContractID` is the ID of the ProductListingContract copied from the `ProductListingContract` registry.
 
 ```
@@ -209,7 +209,7 @@ Now `importerA` will be the owner of `ProductListingContract` and the status wil
 }
 ```
 
-A successful execution of the transaction will change the status of productListing to `CHECKCOMPLETED`. Now perform a `transferListing` transaction to transfer the products to retailer.
+A successful execution of the transaction will change the status of `productListing` to `CHECKCOMPLETED`. Now perform a `transferListing` transaction to transfer the products to retailer.
 
 ```
 {
