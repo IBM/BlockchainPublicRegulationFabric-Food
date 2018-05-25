@@ -174,7 +174,7 @@ describe('#' + namespace, () => {
     factory = businessNetworkConnection.getBusinessNetwork().getFactory();
   }
   it('Transfer ProductListing to Importer', async () => {
-    await useIdentity(supplierCardName);
+    await useIdentity(adminCardName);
     const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
     const assetRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.ProductListingContract');
     const assets = await assetRegistry.getAll();
@@ -186,10 +186,11 @@ describe('#' + namespace, () => {
     listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
     await businessNetworkConnection.submitTransaction(listing);
     var productRegistry = await assetRegistry.get(listingId);
+    //productRegistry.should.have.lengthOf(0);
     productRegistry.owner.$identifier.should.equal(importerId);
   });
   it('Exempt Check for ProductListing', async () => {
-    await useIdentity(supplierCardName);
+    await useIdentity(adminCardName);
     const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
     const assetRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.ProductListingContract');
     const assets = await assetRegistry.getAll();
@@ -200,9 +201,9 @@ describe('#' + namespace, () => {
     listing.newOwner = factory.newRelationship(namespace, 'Importer', importerId);
     listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
     await businessNetworkConnection.submitTransaction(listing);
+    //await useIdentity(importerCardName);
     var productRegistry = await assetRegistry.get(listingId);
     productRegistry.owner.$identifier.should.equal(importerId);
-    await useIdentity(importerCardName);
     var regulatorId = 'regulator@acme.org';
     var importerId = 'importer@acme.org';
     listing = factory.newTransaction(namespace, 'checkProducts');
@@ -210,10 +211,10 @@ describe('#' + namespace, () => {
     listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
     await businessNetworkConnection.submitTransaction(listing);
     productRegistry = await assetRegistry.get(listingId);
-    productRegistry.owner.$identifier.should.equal(importerId);
+    productRegistry.status.should.equal('CHECKCOMPLETED');
   });
   it('Transfer ProductListing to Retailer', async () => {
-    await useIdentity(supplierCardName);
+    await useIdentity(adminCardName);
     const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
     const assetRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.ProductListingContract');
     const assets = await assetRegistry.getAll();
@@ -226,7 +227,7 @@ describe('#' + namespace, () => {
     await businessNetworkConnection.submitTransaction(listing);
     var productRegistry = await assetRegistry.get(listingId);
     productRegistry.owner.$identifier.should.equal(importerId);
-    await useIdentity(importerCardName);
+    //await useIdentity(importerCardName);
     var regulatorId = 'regulator@acme.org';
     var importerId = 'importer@acme.org';
     listing = factory.newTransaction(namespace, 'checkProducts');
@@ -234,7 +235,7 @@ describe('#' + namespace, () => {
     listing.productListing = factory.newRelationship(namespace, 'ProductListingContract', listingId);
     await businessNetworkConnection.submitTransaction(listing);
     productRegistry = await assetRegistry.get(listingId);
-    productRegistry.owner.$identifier.should.equal(importerId);
+    productRegistry.status.should.equal('CHECKCOMPLETED');
     var retailerId = 'retailer@acme.org';
     listing = factory.newTransaction(namespace, 'transferListing');
     listing.ownerType = "importer";

@@ -51,7 +51,7 @@ jspm_packages
 out
 
 # Mac files.
-**/.DS_Store
+*DS_Store
 
 *.swp
 
@@ -59,3 +59,6 @@ out
 dist
 
 node_modules
+*.card
+
+DevServer_connection.json

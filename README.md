@@ -98,28 +98,33 @@ You should see the following output :
 ```
 
 ## 2. Deploy the Business Network Archive using Composer Playground
-Open [Composer Playground](http://composer-playground.mybluemix.net/), by default the Basic Sample Network is imported.
-If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console.
+Use Ctrl-click (or the equivalent action for your system) to open the <a href="https://ibm.box.com/v/food-supply" target=download>food-supply.bna</a> file in a separate tab. Click **Download** to download this file to your own device.
 
-Now import the `food-supply.bna` file and click on deploy button.
-<p align="center">
-  <img width="100" height="50" src="images/importbtn.png">
-</p>
+Open [Composer Playground](http://composer-playground.mybluemix.net/). If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console, or to use the option presented to you by Composer Playground.
 
->You can also setup [Composer Playground locally](https://hyperledger.github.io/composer/installing/using-playground-locally.html).
+Next, click the `Deploy a new business network` button.
 
-You will see the following:
-<p align="center">
-  <img width="400" height="200" src="images/composerplayground.png">
-</p>
+![Deploy new network 1](images/deploy-new-network-1.png)
+
+and drop the `food-supply.bna` file (downloaded above) in the `Drop here to upload or browse` area. 
+
+![Deploy new network 2](images/deploy-new-network-2.png)
+
+Finally, click Deploy to deploy the BNA.
+
+>You can also setup [Composer Playground locally](https://hyperledger.github.io/composer/latest/installing/development-tools#step-2-install-playground).
+
+Once imported, click `Connect now` on the admin card. You should see the following:
+
+![Composer Playground](images/composerplayground.png)
 
 To test your Business Network Definition, first click on the **Test** tab:
 
 In the `Supplier` participant registry, create a new participant. Make sure you click on the `Supplier` tab on the far left-hand side first and click on `Create New Participant` button.
-<p align="center">
-  <img width="200" height="100" src="images/createparticipantbtn.png">
-</p>
 
+![Create participant](images/createparticipant.png)
+
+Enter the following information to create the supplier.
 ```
 {
   "$class": "composer.food.supply.Supplier",
@@ -129,7 +134,7 @@ In the `Supplier` participant registry, create a new participant. Make sure you 
 }
 ```
 
-Similarly create retailer, regulator, importer participants by selecting the respective tabs.
+Similarly create `retailer`, `regulator` and `importer` participants by selecting the respective tabs and provide the information as follows:
 ```
 {
   "$class": "composer.food.supply.Retailer",
@@ -155,24 +160,19 @@ Similarly create retailer, regulator, importer participants by selecting the res
 }
 ```
 
-Now we are ready to add **Access Control**. Do this by first clicking on the `admin` tab to issue **new ids** to the participants and add the ids to the wallet.
-Please follow the instructions as shown in the images below:
+Now we are ready to add **Access Control**. Do this by first clicking the `admin` tab followed by `ID Registry` to issue **new IDs** to the participants and to add these IDs to the wallet. Please follow the instructions as shown in the images below:
 
 ![Admin Tab](images/admintab.png)
 
-Click on  `Issue New Id` button to create new Ids.
+Click on  `Issue New ID` button to create new IDs.
+
 ![Generate New Id](images/generateNewId.png)
 
-Click on `Add to my Wallet` link to add the newly generated Id to the `Wallet`.
-![Add to Wallet](images/addtowallet.png)
-
-![Ids to Wallet](images/idstowallet.png)
-
-Select the `Supplier id` from `Wallet tab` tab. Now click on the `test tab` to perform `createProductListing` and `transferListing` transactions.
+Repeat the above step to also create IDs for the importer, regulator and retailer. Once you completed the creation of the four IDs, select the `Supplier id` from the list and click `Use now`. 
 
 ![Select ID](images/selectid.png)
 
-Now click on `Submit Transaction` button and select `createProductListing` transaction from the dropdown, to create a product listing for the list of products. `products` array element contains information about the `productid` and `quantity` separated by `,`.
+Next, click on the `test tab` to perform `createProductListing` and `transferListing` transactions. Click the `Submit Transaction` button and select the `createProductListing` transaction from the dropdown to create a product listing for the list of products. The `products` array element contains information about the `productid` and `quantity` separated by `,`.
 
 ```
 {
@@ -182,12 +182,13 @@ Now click on `Submit Transaction` button and select `createProductListing` trans
 }
 ```
 
-After executing the transaction successfully, `productListing` will be created in `ProductListingContract` registry.
+After executing the transaction successfully, a `productListing` will be created in `ProductListingContract` registry.
+> It is worth copying the ID of the ProductListingContract to your clipboard as you need to provide this ID in the next couple of steps as well.
 
 ![Product Listing](images/productListing.png)
 
-Similarly, submit a `transferListing` transaction to transfer the productListing to `Importer`.
-> `ProductListingContractID`is the id of the ProductListingContract copied from the `ProductListingContract` registry.
+Similarly, submit a `transferListing` transaction to transfer the productListing to the `Importer`.
+> `ProductListingContractID` is the ID of the ProductListingContract copied from the `ProductListingContract` registry.
 
 ```
 {
@@ -198,7 +199,7 @@ Similarly, submit a `transferListing` transaction to transfer the productListing
 }
 ```
 
-`importerA` will be the owner of `ProductListingContract` and the status will be `EXEMPTCHECKREQ`. Also, productListing will be removed from `Supplier` view. Now select the `importer` id from the `Wallet tab` and submit `checkProducts` transaction to perform the exempt check for the products.
+Now `importerA` will be the owner of `ProductListingContract` and the status will be `EXEMPTCHECKREQ`. Also, the `productListing` will be removed from the `Supplier` view. Now select the `Importer  ID` from the `ID Registry` and submit a `checkProducts` transaction to perform the exempt check for the products.
 
 ```
 {
@@ -208,7 +209,7 @@ Similarly, submit a `transferListing` transaction to transfer the productListing
 }
 ```
 
-Successful execution of transaction will change the status of productListing to `CHECKCOMPLETED`. Now perform `transferListing` transaction to transfer the products to retailer.
+A successful execution of the transaction will change the status of productListing to `CHECKCOMPLETED`. Now perform a `transferListing` transaction to transfer the products to retailer.
 
 ```
 {
@@ -219,7 +220,7 @@ Successful execution of transaction will change the status of productListing to 
 }
 ```
 
-The transaction will the change the owner of `ProductListingContract` and update the list of products in `Retailer` registry. Select the `Retailer` id from the `Wallet tab` and view the updated registries.
+The transaction will the change the owner of `ProductListingContract` and update the list of products in `Retailer` registry. Select the `Retailer id` from the `ID Registry` and view the updated registries.
 
 ![Product Listing](images/retailerPL.png)
 
@@ -230,12 +231,13 @@ The transaction will the change the owner of `ProductListingContract` and update
 
 ## 3. Deploy the Business Network Archive on Hyperledger Composer running locally
 
-Please start the local Fabric using the [instructions](https://github.com/IBM/BlockchainNetwork-CompositeJourney#2-starting-hyperledger-fabric).
+Please start the local Fabric using the [instructions](https://hyperledger.github.io/composer/latest/installing/development-tools#starting-and-stopping-hyperledger-fabric).
 Now change directory to the `dist` folder containing `food-supply.bna` file and type:
+
 ```
 cd dist
-composer runtime install --card PeerAdmin@hlfv1 --businessNetworkName food-supply
-composer network start --card PeerAdmin@hlfv1 --networkAdmin admin --networkAdminEnrollSecret adminpw --archiveFile food-supply.bna --file networkadmin.card
+composer network install --card PeerAdmin@hlfv1 --archiveFile food-supply.bna
+composer network start --networkName food-supply --networkVersion 0.0.1 --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file networkadmin.card
 composer card import --file networkadmin.card
 ```
 
@@ -246,10 +248,11 @@ composer network ping --card admin@food-supply
 
 You should see the the output as follows:
 ```
-The connection to the network was successfully tested: events
-	version: 0.18.1
+The connection to the network was successfully tested: food-supply
+	Business network version: 0.0.1
+	Composer runtime version: 0.19.4
 	participant: org.hyperledger.composer.system.NetworkAdmin#admin
-	identity: org.hyperledger.composer.system.Identity#1f95efceac5421ad34d73130c8f16fbc2d29b7dce0c3425afb3b5f077242b1fc
+	identity: org.hyperledger.composer.system.Identity#c1d5b4919bb775fef75f407050c7fa292ce79d7f978703e974cb8f19404d100c
 
 Command succeeded
 ```
@@ -264,7 +267,8 @@ composer-rest-server
 Answer the questions posed at startup. These allow the composer-rest-server to connect to Hyperledger Fabric and configure how the REST API is generated.
 * Enter `admin@food-supply` as the card name.
 * Select `never use namespaces` when asked whether to use namespaces in the generated API.
-* Select `No` when asked whether to secure the generated API.
+* Select `No` when asked whether to use an API key to secure the generated API.
+* Select `No` when asked whether to enable authentication for the REST API using Passport.
 * Select `Yes` when asked whether to enable event publication.
 * Select `No` when asked whether to enable TLS security.
 
@@ -283,7 +287,7 @@ You should see the LoopBack API Explorer, allowing you to inspect and test the g
 
 ## Additional Resources
 * [Hyperledger Fabric Docs](http://hyperledger-fabric.readthedocs.io/en/latest/)
-* [Hyperledger Composer Docs](https://hyperledger.github.io/composer/introduction/introduction.html)
+* [Hyperledger Composer Docs](https://hyperledger.github.io/composer/latest/introduction/introduction.html)
 
 
 ## License

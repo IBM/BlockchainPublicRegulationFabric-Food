@@ -69,12 +69,21 @@
      action: ALLOW
  }
 
-
  rule RegulatorView {
      description: "Allow regulator read access to all resources"
      participant: "composer.food.supply.Regulator"
      operation: READ
      resource: "composer.food.supply.*"
+     action: ALLOW
+ }
+
+ // This allows the regulator to updates his exempt list
+ rule RegulatorCanViewOwnData {
+     description: "Allow regulator access to his own data"
+     participant(m): "composer.food.supply.Regulator"
+     operation: ALL
+     resource(v): "composer.food.supply.Regulator"
+     condition: (v.getIdentifier() == m.getIdentifier())
      action: ALLOW
  }
 
@@ -142,11 +151,11 @@ rule SystemACL {
   action: ALLOW
 }
 
-rule Default {
-    description: "Allow all participants access to all resources"
-    participant: "ANY"
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
     operation: ALL
-    resource: "composer.food.supply.*"
+    resource: "**"
     action: ALLOW
 }
 
