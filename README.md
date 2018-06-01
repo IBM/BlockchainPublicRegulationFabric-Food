@@ -106,7 +106,7 @@ Next, click the `Deploy a new business network` button.
 
 ![Deploy new network 1](images/deploy-new-network-1.png)
 
-and drop the `food-supply.bna` file (downloaded above) in the `Drop here to upload or browse` area. 
+and drop the `food-supply.bna` file (downloaded above) in the `Drop here to upload or browse` area.
 
 ![Deploy new network 2](images/deploy-new-network-2.png)
 
@@ -168,7 +168,7 @@ Click on  `Issue New ID` button to create new IDs.
 
 ![Generate New Id](images/generateNewId.png)
 
-Repeat the above step to also create IDs for the importer, regulator and retailer. Once you completed the creation of the four IDs, select the `Supplier id` from the list and click `Use now`. 
+Repeat the above step to also create IDs for the importer, regulator and retailer. Once you completed the creation of the four IDs, select the `Supplier id` from the list and click `Use now`.
 
 ![Select ID](images/selectid.png)
 
@@ -177,6 +177,7 @@ Next, click on the `test tab` to perform `createProductListing` and `transferLis
 ```
 {
   "$class": "composer.food.supply.createProductListing",
+  "listingtId": "pl1",
   "products": ["prodA,5","prodB,2"],
   "user": "resource:composer.food.supply.Supplier#supplierA"
 }
@@ -195,7 +196,7 @@ Similarly, submit a `transferListing` transaction to transfer the `productListin
   "$class": "composer.food.supply.transferListing",
   "ownerType": "supplier",
   "newOwner": "resource:composer.food.supply.Importer#importerA",
-  "productListing": "resource:composer.food.supply.ProductListingContract#<ProductListingContractID>"
+  "productListing": "resource:composer.food.supply.ProductListingContract#pl1"
 }
 ```
 
@@ -205,7 +206,7 @@ Now `importerA` will be the owner of `ProductListingContract` and the status wil
 {
   "$class": "composer.food.supply.checkProducts",
   "regulator": "resource:composer.food.supply.Regulator#regulatorA",
-  "productListing": "resource:composer.food.supply.ProductListingContract#<ProductListingContractID>"
+  "productListing": "resource:composer.food.supply.ProductListingContract#pl1"
 }
 ```
 
@@ -216,7 +217,7 @@ A successful execution of the transaction will change the status of `productList
   "$class": "composer.food.supply.transferListing",
   "ownerType": "importer",
   "newOwner": "resource:composer.food.supply.Retailer#retailerA",
-  "productListing": "resource:composer.food.supply.ProductListingContract#<ProductListingContractID>"
+  "productListing": "resource:composer.food.supply.ProductListingContract#pl1"
 }
 ```
 
