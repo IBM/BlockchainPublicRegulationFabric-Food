@@ -251,9 +251,9 @@ You should see the the output as follows:
 ```
 The connection to the network was successfully tested: food-supply
 	Business network version: 0.0.1
-	Composer runtime version: 0.19.4
+	Composer runtime version: 0.19.5
 	participant: org.hyperledger.composer.system.NetworkAdmin#admin
-	identity: org.hyperledger.composer.system.Identity#c1d5b4919bb775fef75f407050c7fa292ce79d7f978703e974cb8f19404d100c
+	identity: org.hyperledger.composer.system.Identity#2ead29aebef22a74677171c290375b85f87223bee8f1b5e084c318928d8eeed7
 
 Command succeeded
 ```
