@@ -184,12 +184,10 @@ Next, click on the `test tab` to perform `createProductListing` and `transferLis
 ```
 
 After executing the transaction successfully, a `productListing` will be created in `ProductListingContract` registry.
-> It is worth copying the ID of the ProductListingContract to your clipboard as you need to provide this ID in the next couple of steps as well.
 
 ![Product Listing](images/productListing.png)
 
 Similarly, submit a `transferListing` transaction to transfer the `productListing` to the `Importer`.
-> `ProductListingContractID` is the ID of the ProductListingContract copied from the `ProductListingContract` registry.
 
 ```
 {
