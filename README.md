@@ -47,6 +47,9 @@ If you have an IBM cloud lite account, you can also use the Starter Plan for 30 
 
 
 ## Steps
+[Install Hyperledger Composer development tools](https://hyperledger.github.io/composer/latest/installing/development-tools)
+[Configure and start Hyperledger Fabric network](https://hyperledger.github.io/composer/latest/installing/development-tools)
+
 1. [Generate the Business Network Archive (BNA)](#1-generate-the-business-network-archive-bna)
 2. [Deploy the Business Network Archive using Composer Playground](#2-deploy-the-business-network-archive-using-composer-playground)
 3. [Deploy the Business Network Archive on Hyperledger Composer running locally](#3-deploy-the-business-network-archive-on-hyperledger-composer-running-locally)
@@ -98,8 +101,6 @@ You should see the following output :
 ```
 
 ## 2. Deploy the Business Network Archive using Composer Playground
-Use Ctrl-click (or the equivalent action for your system) to open the <a href="https://ibm.box.com/v/food-supply" target=download>food-supply.bna</a> file in a separate tab. Click **Download** to download this file to your own device.
-
 Open [Composer Playground](http://composer-playground.mybluemix.net/). If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console, or to use the option presented to you by Composer Playground.
 
 Next, click the `Deploy a new business network` button.

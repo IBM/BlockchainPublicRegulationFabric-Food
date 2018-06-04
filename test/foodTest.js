@@ -28,10 +28,6 @@ chai.should();
 chai.use(require('chai-as-promised'));
 const namespace = 'composer.food.supply';
 describe('#' + namespace, () => {
-  // In-memory card store for testing so cards are not persisted to the file system
-  const cardStore = require('composer-common').NetworkCardStoreManager.getCardStore({
-    type: 'composer-wallet-inmemory'
-  });
   // Embedded connection used for local testing
   const connectionProfile = {
     name: 'embedded',
@@ -67,9 +63,8 @@ describe('#' + namespace, () => {
     const deployerCard = new IdCard(deployerMetadata, connectionProfile);
     deployerCard.setCredentials(credentials);
     const deployerCardName = 'PeerAdmin';
-    adminConnection = new AdminConnection({
-      cardStore: cardStore
-    });
+
+    adminConnection = new AdminConnection();
     await adminConnection.importCard(deployerCardName, deployerCard);
     await adminConnection.connect(deployerCardName);
   });
@@ -103,9 +98,7 @@ describe('#' + namespace, () => {
     const adminCards = await adminConnection.start(businessNetworkName, businessNetworkDefinition.getVersion(), startOptions);
     await adminConnection.importCard(adminCardName, adminCards.get('admin'));
     // Create and establish a business network connection
-    businessNetworkConnection = new BusinessNetworkConnection({
-      cardStore: cardStore
-    });
+    businessNetworkConnection = new BusinessNetworkConnection();
     events = [];
     businessNetworkConnection.on('event', event => {
       events.push(event);
@@ -149,6 +142,7 @@ describe('#' + namespace, () => {
     await importCardForIdentity(retailerCardName, identity);
     await useIdentity(supplierCardName);
     const listing = factory.newTransaction(namespace, 'createProductListing');
+    listing.listingtId = "l1"
     listing.products = ["producta,5"];
     listing.user = factory.newRelationship(namespace, 'Supplier', supplier.$identifier);
     // Get the asset registry.
@@ -163,9 +157,7 @@ describe('#' + namespace, () => {
    */
   async function useIdentity(cardName) {
     await businessNetworkConnection.disconnect();
-    businessNetworkConnection = new BusinessNetworkConnection({
-      cardStore: cardStore
-    });
+    businessNetworkConnection = new BusinessNetworkConnection();
     events = [];
     businessNetworkConnection.on('event', (event) => {
       events.push(event);
