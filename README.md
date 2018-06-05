@@ -58,9 +58,9 @@ If you have an IBM cloud lite account, you can also use the Starter Plan for 30 
 
 1. [Installing Hyperledger Composer Development Tools](#1-installing-hyperledger-composer-development-tools)
 2. [Configure and start Hyperledger Fabric network](#2-starting-hyperledger-fabric)
-3. [Generate the Business Network Archive (BNA)](#1-generate-the-business-network-archive-bna)
-4. [Deploy the Business Network Archive using Composer Playground](#2-deploy-the-business-network-archive-using-composer-playground)
-5. [Deploy the Business Network Archive on Hyperledger Composer running locally](#3-deploy-the-business-network-archive-on-hyperledger-composer-running-locally)
+3. [Generate the Business Network Archive (BNA)](#3-generate-the-business-network-archive-bna)
+4. [Deploy the Business Network Archive using Composer Playground](#4-deploy-the-business-network-archive-using-composer-playground)
+5. [Deploy the Business Network Archive on Hyperledger Composer running locally](#5-deploy-the-business-network-archive-on-hyperledger-composer-running-locally)
 
 
 ## 1. Installing Hyperledger Composer Development Tools
