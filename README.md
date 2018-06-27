@@ -46,13 +46,15 @@ If you have an IBM cloud lite account, you can also use the Starter Plan for 30 
 * (Alternative method) Deploy the Business Network Archive on Hyperledger Composer running locally
 
 ## Prerequisites
+We find that Blockchain can be finicky when it comes to installing Node. We want to share this [StackOverflow response](https://stackoverflow.com/questions/49744276/error-cannot-find-module-api-hyperledger-composer) - because many times the errors you see with Composer are derived in having installed either the wrong Node version or took an approach that is not supported by Composer: 
 
 * [Docker](https://www.docker.com/products/overview) - v1.13 or higher
 * [Docker Compose](https://docs.docker.com/compose/overview/) - v1.8 or higher
-* [Node.js & npm](https://nodejs.org/en/download/) - (version 8.9 or higher - note version 9 is not supported)
-* [Git client](https://git-scm.com/downloads) - needed for clone commands
-*  git - 2.9.x
-*  Python - 2.7.x
+* [NPM](https://www.npmjs.com/get-npm) - v5.6.0 or higher
+* [nvm]() - v8.11.3 (use to download and set what node version you are using)
+* [Node.js](https://nodejs.org/en/download/) - node v8.11.3 ** don't install in SUDO mode
+* [Git client](https://git-scm.com/downloads) - v 2.9.x or higher
+* [Python](https://www.python.org/downloads/) - 2.7.x
 
 ## Steps
 
@@ -175,6 +177,7 @@ You should see the following output :
 
 ## 4. Deploy the Business Network Archive using Composer Playground
 Open [Composer Playground](http://composer-playground.mybluemix.net/). If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console, or to use the option presented to you by Composer Playground.
+
 
 Next, click the `Deploy a new business network` button.
 
