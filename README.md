@@ -46,9 +46,9 @@ If you have an IBM cloud lite account, you can also use the Starter Plan for 30 
 * (Alternative method) Deploy the Business Network Archive on Hyperledger Composer running locally
 
 ## Prerequisites
-We find that Blockchain can be finicky when it comes to installing Node. We want to share this [StackOverflow response](https://stackoverflow.com/questions/49744276/error-cannot-find-module-api-hyperledger-composer) - because many times the errors you see with Composer are derived in having installed either the wrong Node version or took an approach that is not supported by Composer: 
+We find that Blockchain can be finicky when it comes to installing Node. We want to share this [StackOverflow response](https://stackoverflow.com/questions/49744276/error-cannot-find-module-api-hyperledger-composer) - because many times the errors you see with Composer are derived in having installed either the wrong Node version or took an approach that is not supported by Composer:
 
-* [Docker](https://www.docker.com/products/overview) - v1.13 or higher
+* [Docker](https://www.docker.com/products) - v1.13 or higher
 * [Docker Compose](https://docs.docker.com/compose/overview/) - v1.8 or higher
 * [NPM](https://www.npmjs.com/get-npm) - v5.6.0 or higher
 * [nvm]() - v8.11.3 (use to download and set what node version you are using)
@@ -103,7 +103,7 @@ The PeerAdmin card is a special ID card used to administer the local Hyperledger
 First, clone the contents of this repo locally and cd into the project folder by running these commands:
 
 ```bash
-git clone https://github.com/IBM/BlockchainPublicRegulationFabric-Food.git
+git clone https://github.com/IBM/BlockchainPublicRegulationFabric-Food
 cd BlockchainPublicRegulationFabric-Food
 ```
 
@@ -121,7 +121,7 @@ Then, start the Fabric and create a PeerAdmin card using the following commands:
 ./downloadFabric.sh
 ./startFabric.sh
 ./createPeerAdminCard.sh
-```  
+```
 
 No need to do it now; however as an fyi - you can stop and tear down Fabric using:
 ```
@@ -176,7 +176,7 @@ You should see the following output :
 ```
 
 ## 4. Deploy the Business Network Archive using Composer Playground
-Open [Composer Playground](http://composer-playground.mybluemix.net/). If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console, or to use the option presented to you by Composer Playground.
+Open [Composer Playground](https://composer-playground.mybluemix.net/). If you have previously used Playground, be sure to clear your browser local storage by running `localStorage.clear()` in your browser Console, or to use the option presented to you by Composer Playground.
 
 
 Next, click the `Deploy a new business network` button.
@@ -362,11 +362,11 @@ You should see the LoopBack API Explorer, allowing you to inspect and test the g
 
 
 ## Additional Resources
-* [Hyperledger Fabric Docs](http://hyperledger-fabric.readthedocs.io/en/latest/)
+* [Hyperledger Fabric Docs](https://hyperledger-fabric.readthedocs.io/en/latest/)
 * [Hyperledger Composer Docs](https://hyperledger.github.io/composer/latest/introduction/introduction.html)
 
 
 ## License
-This code pattern is licensed under the Apache Software License, Version 2.  Separate third party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1 (DCO)](https://developercertificate.org/) and the [Apache Software License, Version 2](http://www.apache.org/licenses/LICENSE-2.0.txt).
+This code pattern is licensed under the Apache Software License, Version 2.  Separate third party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1 (DCO)](https://developercertificate.org/) and the [Apache Software License, Version 2](https://www.apache.org/licenses/LICENSE-2.0.txt).
 
-[Apache Software License (ASL) FAQ](http://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN)
+[Apache Software License (ASL) FAQ](https://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN)
